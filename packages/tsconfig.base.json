@@ -1,0 +1,62 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./dist",
+        "rootDir": ".",
+        "paths": {
+            "@openskela/core": [
+                "./core/src/index"
+            ],
+            "@openskela/adapters": [
+                "./adapters/src/index"
+            ],
+            "@openskela/tools": [
+                "./tools/src/index"
+            ],
+            "@openskela/memory": [
+                "./memory/src/index"
+            ],
+            "@openskela/control-panel": [
+                "./control-panel/src/index"
+            ],
+            "@openskela/api": [
+                "../../apps/api/src/index"
+            ],
+            "@openskela/multi-tenant": [
+                "./multi-tenant/src/index"
+            ],
+            "@openskela/context": [
+                "./context/src/index"
+            ],
+            "@openskela/trading": [
+                "./trading/src/index"
+            ],
+            "@openskela/security": [
+                "./security/src/index"
+            ],
+            "@openskela/marketplace": [
+                "./marketplace/src/index"
+            ],
+            "@openskela/skills": [
+                "./skills/src/index"
+            ],
+            "@openskela/mcp": [
+                "./mcp/src/index"
+            ],
+            "@openskela/app-builder": [
+                "./app-builder/src/index"
+            ],
+            "@openskela/observability": [
+                "./observability/src/index"
+            ]
+        },
+        "declaration": true,
+        "composite": true
+    }
+}

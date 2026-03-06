@@ -1,0 +1,21 @@
+export type OrgRole = 'owner' | 'admin' | 'member' | 'viewer';
+export declare const PERMISSION_SCOPES: {
+    readonly 'agents:read': "View agents and their configs";
+    readonly 'agents:create': "Create new agents";
+    readonly 'agents:run': "Run agents";
+    readonly 'agents:delete': "Delete agents";
+    readonly 'tools:*': "Use all tools";
+    readonly 'tools:trading': "Use trading tools";
+    readonly 'tools:payment': "Use payment tools";
+    readonly 'tools:browser': "Use browser automation";
+    readonly 'tools:code': "Execute code";
+    readonly 'memory:read': "Read user memory";
+    readonly 'memory:write': "Write to user memory";
+    readonly 'skills:install': "Install marketplace skills";
+    readonly 'billing:view': "View cost reports";
+    readonly 'billing:manage': "Manage budgets";
+    readonly 'org:manage': "Manage org settings and members";
+    readonly '*': "All permissions (owner only)";
+};
+export type PermissionScope = keyof typeof PERMISSION_SCOPES;
+export declare const ROLE_PERMISSIONS: Record<OrgRole, PermissionScope[]>;

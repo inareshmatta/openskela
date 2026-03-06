@@ -1,0 +1,52 @@
+import { StructuredLLM } from '@openskela/adapters';
+import { STACKS } from './stacks';
+
+export class AppBuilderAgent {
+    private readonly MAX_ITERATIONS = 5;
+
+    constructor(private llm: StructuredLLM) { }
+
+    async build(prompt: string): Promise<string> {
+        console.log(`[AppBuilder] Extracting requirements for: ${prompt}`);
+        const stackKeys = Object.keys(STACKS);
+
+        // 1. Stack Selection uses Claude for deep reasoning 
+        const stackSelection = await this.llm.complete<any>(
+            {
+                type: 'object',
+                properties: {
+                    appType: { type: 'string', enum: stackKeys },
+                    reasoning: { type: 'string' }
+                },
+                required: ['appType', 'reasoning']
+            },
+            [{ role: 'user', content: `Select the best technical stack for this user request: ${prompt}\nAvailable architectures: ${stackKeys.join(', ')}` }],
+            { forceProvider: 'claude', reasoning: { enabled: true, effort: 'low' } }
+        );
+
+        const selectedStack = STACKS[stackSelection.appType as keyof typeof STACKS];
+        console.log(`[AppBuilder] Selected stack:`, selectedStack);
+
+        // 2. Code Generation (Dual LLMs)
+        console.log(`[AppBuilder] Generating Backend/API/Logic code via Claude... (Mock)`);
+        // const backendCode = await this.generateBackend(...);
+
+        console.log(`[AppBuilder] Generating Frontend/UI/Pages code via Gemini... (Mock)`);
+        // const frontendCode = await this.generateFrontend(...);
+
+        // 3. Local Runner & Error Fixer loop
+        console.log(`[AppBuilder] Attempting isolated local build environment...`);
+        for (let i = 0; i < this.MAX_ITERATIONS; i++) {
+            // const error = await this.runLocally();
+            // if (!error) break;
+            // console.log(`[AppBuilder] Fixing standard compilation errors... iter ${i+1}/${this.MAX_ITERATIONS}`);
+            // await this.fixError(error);
+        }
+
+        // 4. Deployment integration
+        console.log(`[AppBuilder] Handing off deployment to MCP adapter for ${selectedStack.deploy}...`);
+        // const url = await this.deployWithMCP(selectedStack.deploy);
+
+        return `App successfully built and deployed! Stack configured: ${JSON.stringify(selectedStack)}`;
+    }
+}

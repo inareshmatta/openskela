@@ -1,0 +1,17 @@
+{
+    "extends": "../../packages/tsconfig.base.json",
+    "compilerOptions": {
+        "rootDir": "."
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "references": [
+        {
+            "path": "../../packages/core"
+        },
+        {
+            "path": "../../packages/control-panel"
+        }
+    ]
+}

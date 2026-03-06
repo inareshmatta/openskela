@@ -1,0 +1,23 @@
+{
+    "name": "@openskela/adapters",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.78.0",
+        "@openskela/core": "workspace:*",
+        "ajv": "^8.18.0",
+        "tiktoken": "^1.0.22",
+        "zod": "^4.3.6"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "msw": "^2.0.0",
+        "typescript": "^5.0.0",
+        "vitest": "^1.0.0"
+    }
+}

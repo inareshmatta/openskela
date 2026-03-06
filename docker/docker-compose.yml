@@ -1,0 +1,48 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    ports: ["3000:3000", "3001:3001"]
+    env_file: .env
+    depends_on: [postgres, redis, qdrant, falkordb]
+    volumes: ["./:/app", "/app/node_modules"]
+
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_DB: openskela, POSTGRES_USER: openskela, POSTGRES_PASSWORD: password }
+    ports: ["5432:5432"]
+    volumes: [postgres_data:/var/lib/postgresql/data]
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports: ["6379:6379"]
+    volumes: [redis_data:/data]
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports: ["6333:6333"]
+    volumes: [qdrant_data:/qdrant/storage]
+
+  falkordb:
+    image: falkordb/falkordb:latest
+    ports: ["6380:6379"]
+    volumes: [falkordb_data:/data]
+
+  sandbox:
+    build: docker/sandbox/
+    ports: ["3002:3002"]
+    network_mode: none
+    read_only: true
+    tmpfs: ["/tmp:size=64m"]
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 50           # prevent fork bombs
+
+  bull-board:
+    image: deadly0/bull-board
+    ports: ["3003:3000"]
+    environment: { REDIS_HOST: redis, REDIS_PORT: 6379 }
+    depends_on: [redis]
+
+volumes: { postgres_data:, redis_data:, qdrant_data:, falkordb_data: }
